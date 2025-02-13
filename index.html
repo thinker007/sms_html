@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>上行短信</title>
+        <style>
+            *{margin:0;padding:0;font-family:PingFang SC,Helvetica Neue,Microsoft Yahei,Hiragino Sans GB,"Microsoft Sans Serif",WenQuanYi Micro Hei,sans,sans-serif;zoom:1;}
+            html {font-size: calc(100vw / 7.5);}
+            body {font-size: 0.28rem;}
+            body{padding: 0 0.15rem;background: #EBEBEB;}
+            .sms-title {font-size: 0.34rem;color: #333333; height: 1.4rem; text-align: center; line-height: 1.4rem;}
+            .sub-title {font-size: 0.32rem;color: #333333; margin-bottom: 0.2rem}
+            .sms-part-one-item {display: flex; height: 0.80rem; line-height: 0.80rem; padding-left: 0.3rem; background: #FFFFFF; border: 1px solid #D3D3D3;}
+            .sms-tips {font-size: 0.24rem; color: #999999; margin-top: 0.1rem}
+            .sms-part-one {margin-bottom: 0.46rem;}
+            .sms-part-two-item {color: #666666; padding: 0 0.3rem; height: 1.2rem; background-color: #FFFFFF; display: flex; flex-direction: column; justify-content: center;}
+            .sms-part-one-item-label {display: inline-block; min-width: 1.4rem; }     
+            .sms-part-one-item-label-en {display: inline-block; min-width: 1.5rem;}
+            .colon {float: right;}
+            /* 旧样式 */
+            .f-dn{display: none;}
+            .f-margin-top-5{margin-top: 5px;}
+            .bold{font-weight: bold;}
+            .title{text-align: center;font-size: 20px;height: 28px;line-height: 28px;margin-top: 35px;}
+            .title-info{margin-top: 5px;font-size: 15px;text-align: center;}
+            .qrcode-body{margin-top: 24px;border:1px solid #b9b9b9;background: #fff;padding:25px 15px;font-size: 16px;border-radius: 6px;}
+            .qrcode-body .step1 .step-title{color: #656565;margin-top: 0px;}
+            .qrcode-body .step-title{margin-top: 20px;margin-bottom: 10px;}
+            .qrcode-body .step p{font-size: 15px;line-height: 25px;}
+            .qrcode-footer{color: #656565;font-size: 15px;margin-top: 14px;}
+            .j-manaul{text-decoration: none;display: inline-block;border-radius: 6px; padding: 0 8px;height: 26px;line-height: 26px;text-align: center;color: #3B78DD ;border:1px solid #3B78DD;margin-left: 5px; margin-top: 8px;}
+        </style>
+	</head>
+	<body>
+        <div class="qrcode" id="part-one" style="display: none;">
+            <div class="title bold" id="sms-title-1"></div>
+            <div class="title-info">扫码二维码进行短信验证</div>
+            <div class="qrcode-body">
+                <div class="step step1">
+                    <div class="step-title">第一步：手机扫描二维码（已完成）</div>
+                </div>
+                <div class="step step2">
+                    <div class="step-title bold">第二步：点击发送短信</div>
+                    <p>短信内容自动填充，无需手动输入，只需点击发送按钮即可</p>
+                    <p>短信费用由运营商收取</p>
+                </div>
+                <div class="step step3">
+                    <div class="step-title bold">第三步：<span id="sms-submit-btn-text-1"></span> </div>
+                    <p>发送完成后，点击邮箱页面的“<span id="sms-submit-btn-text-2"></span>”按钮完成注册</p>
+                </div>
+            </div>
+            <div class="qrcode-footer">
+                <div>没有跳转到短信界面？</div>
+                <div class="f-margin-top-5">可尝试再次扫码或<a href=";" class="j-manaul" id="send-manaul">手动发送短信</a></div>
+            </div>
+        </div>
+        <div class="qrcode" id="part-one-en" style="display: none;">
+            <div class="title bold" id="sms-title-2"></div>
+            <div class="title-info">Scan the code for verification</div>
+            <div class="qrcode-body">
+                <div class="step step1">
+                    <div class="step-title">Step 1: scan the phone code (completed)</div>
+                </div>
+                <div class="step step2">
+                    <div class="step-title bold">Step 2: hit send</div>
+                    <p>SMS content is automatically filled in, click send</p>
+                    <p>SMS fees are charged by the operator</p>
+                </div>
+                <div class="step step3">
+                    <div class="step-title bold">Step 3: <span id="sms-submit-btn-text-3"></span> </div>
+                    <p>After sending, click the popup "<span id="sms-submit-btn-text-4"></span>" to complete the verification</p>
+                </div>
+            </div>
+            <div class="qrcode-footer">
+                <!-- <div>Jump failed?</div> -->
+                <div class="f-margin-top-5">Jump failed? You can try to scan the code again or <a href=";" class="j-manaul" id="send-manaul-en">send a message manually</a></div>
+            </div>
+        </div>
+        <div id="part-two" style="display: none;">
+            <div class="sms-title" id="sms-title-3"></div>
+            <div class="sms-part-one">
+                <p class="sub-title">第一步：发送短信</p>
+                <div class="sms-part-one-item">
+                    <span class="sms-part-one-item-label">编辑短信<span class="colon">：</span></span><span id="sms-code-1"></span>
+                </div>
+                <div class="sms-part-one-item" style="border-top: none;">
+                    <span class="sms-part-one-item-label">发送至<span class="colon">：</span></span><span id="sms-server-number-1"></span>
+                </div>
+                <p class="sms-tips">短信费用由运营商收取</p>
+            </div>
+            <div>
+                <p class="sub-title">第二步：确认发送</p>
+                <div class="sms-part-two-item">
+                    <p>发送完成后，点击邮箱页面的“<span id="sms-submit-btn-text-5"></span>”按钮完成确认。</p>
+                </div>
+            </div>
+        </div>
+        <div id="part-two-en" style="display: none;">
+            <div class="sms-title" id="sms-title-4"></div>
+            <div class="sms-part-one">
+                <p class="sub-title">Step 1: send a text message</p>
+                <div class="sms-part-one-item">
+                    <span class="sms-part-one-item-label-en">Edit SMS<span class="colon">：</span> </span><span id="sms-code-2"></span>
+                </div>
+                <div class="sms-part-one-item" style="border-top: none;">
+                    <span class="sms-part-one-item-label-en">Send to<span class="colon">：</span></span><span id="sms-server-number-2"></span>
+                </div>
+                <p class="sms-tips">SMS fees are charged by the operator</p>
+            </div>
+            <div>
+                <p class="sub-title">Step 2: confirm delivery</p>
+                <div class="sms-part-two-item">
+                    <p>After sending, click the "<span id="sms-submit-btn-text-6"></span>" button on the email page to complete the confirmation</p>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+
+        function getQueryValue(key) {
+            var query = decodeURIComponent(window.location.search.substring(1));
+            var items = query.split("&");
+            for (var i = 0; i < items.length; i++) {
+                var pair = items[i].split("=");
+                if (pair[0] === key) return pair[1]
+            }
+            return false;
+        }
+
+        // 获取展示信息
+        var smsCode = getQueryValue('smsCode') || '';
+        var smsServerNumber = getQueryValue('smsServerNumber') || '';
+        var title = getQueryValue('title') || '短信验证';
+        var btnText = getQueryValue('btnText') || '我已发送';
+        var hl = getQueryValue('hl') || 'zh_CN';
+
+        hl !== 'zh_CN' && (document.title = 'Send Short Messages');
+
+        // 需要自定义内容的id
+        var contentID = [['sms-code', smsCode], ['sms-server-number', smsServerNumber], ['sms-title',title], ['sms-submit-btn-text', btnText]];
+        for(var i = 1; i <= 6; i++) {
+            for (var j = 0; j < contentID.length; j++) {
+                var node = document.getElementById(contentID[j][0] + '-' + i);
+                node && (node.innerText = contentID[j][1]);
+            }
+        }
+        
+        switch (hl) {
+            case 'zh_CN': 
+                document.getElementById('part-one').style.display = 'block';
+                break;
+            case 'en_US':
+                document.getElementById('part-one-en').style.display = 'block';
+                break;
+        }
+
+        // 中文版点击手动
+        document.getElementById('send-manaul').addEventListener('click', function() {
+            document.getElementById('part-one').style.display = "none";
+            document.getElementById('part-two').style.display = "block";
+        })
+
+        // 英文版点击手动
+        document.getElementById('send-manaul-en').addEventListener('click', function() {
+            document.getElementById('part-one-en').style.display = "none";
+            document.getElementById('part-two-en').style.display = "block";
+        })
+
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;//判断是否是 android终端
+        var isUc = u.indexOf('UCBrowser') > -1; 
+        var  isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if(isIOS&&!isUc){
+            window.location.href = 'sms:' + smsServerNumber.replace(' ', '') + '&body=' + smsCode;
+        }else if(isAndroid || isUc){
+            window.location.href = 'sms:' + smsServerNumber.replace(' ', '') + '?body=' + smsCode; 
+        }
+    
+</html>
