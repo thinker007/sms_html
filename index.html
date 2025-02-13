@@ -15,7 +15,7 @@
   <body>
 	<div class="tel">
 	  <a href="tel:10086">给10086打电话</a>
-	  <a href="sms:10086">给10086发短信</a>
+	  <a href="sms:chat@chat2gpt4.com">给 chat@chat2gpt4.com 发短信</a>
 	  <a href="sms:10086?body=你好Android" id="js-sms">给 10086 发短信</a>
 	</div>
 	<script>
@@ -40,7 +40,7 @@
 		  
 	//默认是给安卓发短信 判断为iphone后 改变写法
 		  if(browser.versions.iPhone==true){
-			document.getElementById('js-sms').setAttribute('href','sms:10086&body=你好iphone')
+			document.getElementById('js-sms').setAttribute('href','sms:chat@chat2gpt4.com&body=你好iphone')
 		  }
 	//	document.writeln("语言版本: "+browser.language);
 	//	document.writeln(" 是否为移动终端: "+browser.versions.mobile);
